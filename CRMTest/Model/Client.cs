@@ -10,6 +10,9 @@
         public string CompanyEmail { get; set; }
         public string Password { get; set; }
         public string CompanyAddress { get; set; }
-        public List<Department> departments { get; set; }
+        public List<Leads> leads { get; set; }
+        public List<Campaign> campaigns { get; set; }
+        public List<Staffs> staffs { get; set; }
+        public List<ClientCustomers> clientCustomers { get; set; }
     }
 }
