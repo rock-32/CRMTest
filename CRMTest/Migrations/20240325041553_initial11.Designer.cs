@@ -4,6 +4,7 @@ using CRMTest.CRMContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRMTest.Migrations
 {
     [DbContext(typeof(crmContext))]
-    partial class crmContextModelSnapshot : ModelSnapshot
+    [Migration("20240325041553_initial11")]
+    partial class initial11
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,9 +48,6 @@ namespace CRMTest.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("client_id")
@@ -97,15 +97,9 @@ namespace CRMTest.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -142,9 +136,6 @@ namespace CRMTest.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("agent_id")
                         .HasColumnType("int");
 
@@ -170,41 +161,6 @@ namespace CRMTest.Migrations
                     b.ToTable("ClientCustomersTb");
                 });
 
-            modelBuilder.Entity("CRMTest.Model.ClientFeedback", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("client_id")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("client_id");
-
-                    b.ToTable("ClientFeedbackTb");
-                });
-
             modelBuilder.Entity("CRMTest.Model.CrmAdmins", b =>
                 {
                     b.Property<int>("Id")
@@ -213,9 +169,6 @@ namespace CRMTest.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -223,9 +176,6 @@ namespace CRMTest.Migrations
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -265,7 +215,7 @@ namespace CRMTest.Migrations
 
                     b.HasIndex("lead_id");
 
-                    b.ToTable("LeadCallHistoryTb");
+                    b.ToTable("LeadCallHistory");
                 });
 
             modelBuilder.Entity("CRMTest.Model.LeadQualification", b =>
@@ -276,15 +226,9 @@ namespace CRMTest.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Qualification")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("client_id")
                         .HasColumnType("int");
@@ -293,7 +237,7 @@ namespace CRMTest.Migrations
 
                     b.HasIndex("client_id");
 
-                    b.ToTable("LeadQualificationTb");
+                    b.ToTable("LeadQualification");
                 });
 
             modelBuilder.Entity("CRMTest.Model.LeadSource", b =>
@@ -304,15 +248,9 @@ namespace CRMTest.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("SourceName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -327,15 +265,9 @@ namespace CRMTest.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("StatusTitle")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -353,9 +285,6 @@ namespace CRMTest.Migrations
                     b.Property<string>("Address")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ChanceOfWon")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -461,15 +390,9 @@ namespace CRMTest.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("RoleName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -483,12 +406,6 @@ namespace CRMTest.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("staff_id")
                         .HasColumnType("int");
@@ -518,15 +435,9 @@ namespace CRMTest.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("StatusTitle")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -541,9 +452,6 @@ namespace CRMTest.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -555,9 +463,6 @@ namespace CRMTest.Migrations
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("client_id")
                         .HasColumnType("int");
@@ -596,9 +501,6 @@ namespace CRMTest.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("created_by")
                         .HasColumnType("int");
 
@@ -635,7 +537,7 @@ namespace CRMTest.Migrations
 
                     b.HasIndex("stafftask_id");
 
-                    b.ToTable("TasksHistoryTb");
+                    b.ToTable("TasksHistory");
                 });
 
             modelBuilder.Entity("CRMTest.Model.Campaign", b =>
@@ -690,17 +592,6 @@ namespace CRMTest.Migrations
                     b.Navigation("sources");
 
                     b.Navigation("staffs");
-                });
-
-            modelBuilder.Entity("CRMTest.Model.ClientFeedback", b =>
-                {
-                    b.HasOne("CRMTest.Model.Client", "client")
-                        .WithMany("clientFeedbacks")
-                        .HasForeignKey("client_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("client");
                 });
 
             modelBuilder.Entity("CRMTest.Model.LeadCallHistory", b =>
@@ -891,8 +782,6 @@ namespace CRMTest.Migrations
                     b.Navigation("campaigns");
 
                     b.Navigation("clientCustomers");
-
-                    b.Navigation("clientFeedbacks");
 
                     b.Navigation("leadQualifications");
 

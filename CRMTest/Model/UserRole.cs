@@ -1,10 +1,10 @@
 ﻿namespace CRMTest.Model
 {
-    public class CrmAdmins
+    public class UserRole
     {
         public int Id { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
+        public string RoleName { get; set; }
+        public List<User> staffs { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
     }

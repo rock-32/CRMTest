@@ -6,7 +6,7 @@
         public int lead_id {  get; set; }
         public Leads leads { get; set; }
         public int agent_id {  get; set; }
-        public Staffs staffs { get; set; }
+        public User user { get; set; }
         public DateTime CallDateTime { get; set; }
         public string RecordedFile {  get; set; }
         public DateTime StartedTime {  get; set; }

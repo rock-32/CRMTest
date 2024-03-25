@@ -4,6 +4,7 @@ using CRMTest.CRMContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRMTest.Migrations
 {
     [DbContext(typeof(crmContext))]
-    partial class crmContextModelSnapshot : ModelSnapshot
+    [Migration("20240325054418_initial12")]
+    partial class initial12
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -202,7 +205,7 @@ namespace CRMTest.Migrations
 
                     b.HasIndex("client_id");
 
-                    b.ToTable("ClientFeedbackTb");
+                    b.ToTable("ClientFeedback");
                 });
 
             modelBuilder.Entity("CRMTest.Model.CrmAdmins", b =>
@@ -265,7 +268,7 @@ namespace CRMTest.Migrations
 
                     b.HasIndex("lead_id");
 
-                    b.ToTable("LeadCallHistoryTb");
+                    b.ToTable("LeadCallHistory");
                 });
 
             modelBuilder.Entity("CRMTest.Model.LeadQualification", b =>
@@ -293,7 +296,7 @@ namespace CRMTest.Migrations
 
                     b.HasIndex("client_id");
 
-                    b.ToTable("LeadQualificationTb");
+                    b.ToTable("LeadQualification");
                 });
 
             modelBuilder.Entity("CRMTest.Model.LeadSource", b =>
@@ -635,7 +638,7 @@ namespace CRMTest.Migrations
 
                     b.HasIndex("stafftask_id");
 
-                    b.ToTable("TasksHistoryTb");
+                    b.ToTable("TasksHistory");
                 });
 
             modelBuilder.Entity("CRMTest.Model.Campaign", b =>

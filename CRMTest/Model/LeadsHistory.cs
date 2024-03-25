@@ -8,6 +8,6 @@
         public int lead_id { get; set; }
         public Leads lead { get; set; }
         public string Description { get; set; }
-        public Staffs staffs { get; set; }
+        public User user { get; set; }
     }
 }

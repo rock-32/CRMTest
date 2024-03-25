@@ -6,13 +6,15 @@
         public string ClientId { get; set; }
         public string CompanyName { get; set; }
         public string CompanyPhone { get; set; }
-        public string CompanyOwnerName {  get; set; }
         public string CompanyEmail { get; set; }
         public string Password { get; set; }
-        public string CompanyAddress { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
         public List<Leads> leads { get; set; }
         public List<Campaign> campaigns { get; set; }
-        public List<Staffs> staffs { get; set; }
+        public List<User> users { get; set; }
         public List<ClientCustomers> clientCustomers { get; set; }
+        public List<LeadQualification> leadQualifications { get; set; }
+        public List<ClientFeedback> clientFeedbacks { get; set; }
     }
 }
