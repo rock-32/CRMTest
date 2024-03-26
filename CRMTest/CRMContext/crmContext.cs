@@ -16,7 +16,7 @@ namespace CRMTest.CRMContext
         public DbSet<Campaign> CampaignTb { get; set; }
         public DbSet<Leads> LeadsTb { get; set; }
         public DbSet<LeadsHistory> LeadsHistoryTb { get; set; }
-        public DbSet<LeadSource> LeadSourceTb { get; set; }
+        public DbSet<Source> LeadSourceTb { get; set; }
         public DbSet<LeadStatus> LeadStatusTb { get; set; }
         public DbSet<UserTaskStatus> StaffTaskStatusTb { get; set; }
         public DbSet<ClientCustomers> ClientCustomersTb { get; set; }
@@ -32,7 +32,22 @@ namespace CRMTest.CRMContext
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            
+            modelBuilder.Entity<Client>()
+                .HasOne(ca => ca.AccountInfo)
+                .WithOne(c => c.client)
+                .HasForeignKey<Client>(ca => ca.Accountinfo_id);
+            modelBuilder.Entity<Client>()
+                .HasOne(ca => ca.billingInfo)
+                .WithOne(c => c.client)
+                .HasForeignKey<Client>(ca => ca.billingInfo_id);
+            modelBuilder.Entity<Client>()
+                .HasOne(ca => ca.AddressInfo)
+                .WithOne(c => c.client)
+                .HasForeignKey<Client>(ca => ca.addressInfo_id);
+            modelBuilder.Entity<Client>()
+                .HasOne(ca => ca.clientSubscription)
+                .WithOne(c => c.client)
+                .HasForeignKey<Client>(ca => ca.subscription_id);
             modelBuilder.Entity<Campaign>()
                 .HasOne(c => c.clients)
                 .WithMany(cl => cl.campaigns)
@@ -56,6 +71,10 @@ namespace CRMTest.CRMContext
                 .HasOne(s => s.roles)
                 .WithMany(r => r.staffs)
                 .HasForeignKey(s => s.role_id);
+            modelBuilder.Entity<User>()
+                .HasOne(s => s.userInfo)
+                .WithOne(r => r.user)
+                .HasForeignKey<User>(s => s.userinfo_id);
             modelBuilder.Entity<Leads>()
                 .HasOne(l => l.client)
                 .WithMany(cl => cl.leads)
@@ -84,9 +103,14 @@ namespace CRMTest.CRMContext
                 .WithMany(s => s.leads)
                 .HasForeignKey(l => l.updated_by)
                 .OnDelete(DeleteBehavior.NoAction);
-            modelBuilder.Entity<Leads>()
+            modelBuilder.Entity<LeadCampaign>()
+                .HasOne(l => l.leads)
+                .WithOne(c => c.lead_campaign)
+                .HasForeignKey<LeadCampaign>(l => l.lead_id)
+                .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<LeadCampaign>()
                 .HasOne(l => l.campaign)
-                .WithMany(c => c.leads)
+                .WithMany(c => c.leadCampaigns)
                 .HasForeignKey(l => l.campaign_id);
             modelBuilder.Entity<Leads>()
                 .HasOne(l => l.leadQualification)
@@ -162,7 +186,56 @@ namespace CRMTest.CRMContext
                 .HasOne(cf=>cf.client)
                 .WithMany(c=>c.clientFeedbacks)
                 .HasForeignKey(cf=>cf.client_id);
-           
+            modelBuilder.Entity<ClientSubscription>()
+                .HasOne(cs => cs.subscription)
+                .WithMany(s => s.clientSubscriptions)
+                .HasForeignKey(cs => cs.current_subscription);
+            modelBuilder.Entity<ClientSubscription>()
+                .HasOne(cs => cs.status)
+                .WithMany(s => s.clientSubscriptions)
+                .HasForeignKey(cs => cs.status_id);
+            modelBuilder.Entity<LeadFollowUp>()
+                .HasOne(cs => cs.lead)
+                .WithOne(s => s.leadFollowUp)
+                .HasForeignKey<LeadFollowUp>(cs => cs.lead_id);
+            modelBuilder.Entity<LeadFollowUp>()
+                .HasOne(cs => cs.user)
+                .WithMany(s => s.leadFollowUps)
+                .HasForeignKey(cs => cs.updated_by)
+                .OnDelete(DeleteBehavior.ClientNoAction);
+            modelBuilder.Entity<Source>()
+                .HasOne(cs => cs.client)
+                .WithMany(s => s.sources)
+                .HasForeignKey(cs => cs.client_id);
+            modelBuilder.Entity<UserRole>()
+                .HasOne(cs => cs.client)
+                .WithMany(s => s.userRoles)
+                .HasForeignKey(cs => cs.client_id);
+            modelBuilder.Entity<LeadSource>()
+                .HasOne(cs => cs.leads)
+                .WithOne(s => s.leadSource)
+                .HasForeignKey<LeadSource>(cs => cs.lead_id);
+            modelBuilder.Entity<LeadSource>()
+                .HasOne(cs => cs.source)
+                .WithMany(s => s.leadSources)
+                .HasForeignKey(cs => cs.source_id)
+                .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<RolePermission>()
+                .HasOne(cs => cs.user_role)
+                .WithOne(s => s.rolePermission)
+                .HasForeignKey<RolePermission>(cs => cs.role_id)
+                .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<RolePermission>()
+                .HasOne(cs => cs.permissions)
+                .WithOne(s => s.rolePermission)
+                .HasForeignKey<RolePermission>(cs => cs.permission_id)
+                .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<LeadDocuments>()
+                .HasOne(cs => cs.leads)
+                .WithMany(s => s.leadDocuments)
+                .HasForeignKey(cs => cs.lead_id)
+                .OnDelete(DeleteBehavior.NoAction);
+
 
             base.OnModelCreating(modelBuilder);
         }

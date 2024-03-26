@@ -9,7 +9,7 @@
         public string Address { get; set; }
         public int CreatedBy { get; set; }
         public int source_id { get; set; }
-        public LeadSource sources { get; set; }
+        public Source sources { get; set; }
         public int client_id { get; set; }
         public Client client { get; set; }
         public int agent_id { get; set; }

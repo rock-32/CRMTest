@@ -16,6 +16,7 @@
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public int source_id { get; set; }
-        public LeadSource leadSource { get; set; }
+        public Source leadSource { get; set; }
+        public List<LeadCampaign> leadCampaigns { get; set; }
     }
 }

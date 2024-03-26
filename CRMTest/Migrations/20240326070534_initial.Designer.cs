@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRMTest.Migrations
 {
     [DbContext(typeof(crmContext))]
-    [Migration("20240325074944_initial13")]
-    partial class initial13
+    [Migration("20240326070534_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -59,11 +59,16 @@ namespace CRMTest.Migrations
                     b.Property<int>("created_by")
                         .HasColumnType("int");
 
+                    b.Property<int>("source_id")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("client_id");
 
                     b.HasIndex("created_by");
+
+                    b.HasIndex("source_id");
 
                     b.ToTable("CampaignTb");
                 });
@@ -76,32 +81,19 @@ namespace CRMTest.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("Accountinfo_id")
+                        .HasColumnType("int");
+
                     b.Property<string>("ClientId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CompanyAddress")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CompanyEmail")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CompanyName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CompanyOwnerName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CompanyPhone")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -110,9 +102,137 @@ namespace CRMTest.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("addressInfo_id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("billingInfo_id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("subscription_id")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("Accountinfo_id")
+                        .IsUnique();
+
+                    b.HasIndex("addressInfo_id")
+                        .IsUnique();
+
+                    b.HasIndex("billingInfo_id")
+                        .IsUnique();
+
+                    b.HasIndex("subscription_id")
+                        .IsUnique();
+
                     b.ToTable("ClientTb");
+                });
+
+            modelBuilder.Entity("CRMTest.Model.ClientAccountInfo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ApplicationTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CompanyName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CompanyPhone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CompanyWebSite")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("GST_IN")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PAN")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ClientAccountInfo");
+                });
+
+            modelBuilder.Entity("CRMTest.Model.ClientAddressInfo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Street1")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Street2")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ZIP")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ClientAddressInfo");
+                });
+
+            modelBuilder.Entity("CRMTest.Model.ClientBillingInfo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Designation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ClientBillingInfo");
                 });
 
             modelBuilder.Entity("CRMTest.Model.ClientCustomers", b =>
@@ -208,6 +328,35 @@ namespace CRMTest.Migrations
                     b.ToTable("ClientFeedbackTb");
                 });
 
+            modelBuilder.Entity("CRMTest.Model.ClientSubscription", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("PurchaseDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ValidUpTo")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("current_subscription")
+                        .HasColumnType("int");
+
+                    b.Property<int>("status_id")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("current_subscription");
+
+                    b.HasIndex("status_id");
+
+                    b.ToTable("ClientSubscription");
+                });
+
             modelBuilder.Entity("CRMTest.Model.CrmAdmins", b =>
                 {
                     b.Property<int>("Id")
@@ -233,6 +382,39 @@ namespace CRMTest.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("CrmAdminsTb");
+                });
+
+            modelBuilder.Entity("CRMTest.Model.CustomFields", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CustomFieldName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DefaultFieldName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TableName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("clientId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("client_id")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("clientId");
+
+                    b.ToTable("CustomFields");
                 });
 
             modelBuilder.Entity("CRMTest.Model.LeadCallHistory", b =>
@@ -271,6 +453,67 @@ namespace CRMTest.Migrations
                     b.ToTable("LeadCallHistoryTb");
                 });
 
+            modelBuilder.Entity("CRMTest.Model.LeadCampaign", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("campaign_id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("lead_id")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("campaign_id");
+
+                    b.HasIndex("lead_id")
+                        .IsUnique();
+
+                    b.ToTable("LeadCampaign");
+                });
+
+            modelBuilder.Entity("CRMTest.Model.LeadFollowUp", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("FollowUpNote")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("NextFollowUp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("lead_id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("updated_by")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("lead_id")
+                        .IsUnique();
+
+                    b.HasIndex("updated_by");
+
+                    b.ToTable("LeadFollowUp");
+                });
+
             modelBuilder.Entity("CRMTest.Model.LeadQualification", b =>
                 {
                     b.Property<int>("Id")
@@ -307,19 +550,20 @@ namespace CRMTest.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("lead_id")
+                        .HasColumnType("int");
 
-                    b.Property<string>("SourceName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("source_id")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("LeadSourceTb");
+                    b.HasIndex("lead_id")
+                        .IsUnique();
+
+                    b.HasIndex("source_id");
+
+                    b.ToTable("LeadSource");
                 });
 
             modelBuilder.Entity("CRMTest.Model.LeadStatus", b =>
@@ -357,6 +601,9 @@ namespace CRMTest.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("CampaignId")
+                        .HasColumnType("int");
+
                     b.Property<int>("ChanceOfWon")
                         .HasColumnType("int");
 
@@ -385,9 +632,6 @@ namespace CRMTest.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("campaign_id")
-                        .HasColumnType("int");
-
                     b.Property<int>("client_id")
                         .HasColumnType("int");
 
@@ -400,18 +644,18 @@ namespace CRMTest.Migrations
                     b.Property<int>("source_id")
                         .HasColumnType("int");
 
-                    b.Property<int>("staff_id")
-                        .HasColumnType("int");
-
                     b.Property<int>("status_id")
                         .HasColumnType("int");
 
                     b.Property<int>("updated_by")
                         .HasColumnType("int");
 
+                    b.Property<int>("user_id")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("campaign_id");
+                    b.HasIndex("CampaignId");
 
                     b.HasIndex("client_id");
 
@@ -434,10 +678,6 @@ namespace CRMTest.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
@@ -456,7 +696,7 @@ namespace CRMTest.Migrations
                     b.ToTable("LeadsHistoryTb");
                 });
 
-            modelBuilder.Entity("CRMTest.Model.StaffRole", b =>
+            modelBuilder.Entity("CRMTest.Model.Source", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -467,95 +707,7 @@ namespace CRMTest.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("RoleName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("StaffRoleTb");
-                });
-
-            modelBuilder.Entity("CRMTest.Model.StaffTask", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("staff_id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("status_id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("task_id")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("staff_id");
-
-                    b.HasIndex("status_id");
-
-                    b.HasIndex("task_id");
-
-                    b.ToTable("StaffTaskTb");
-                });
-
-            modelBuilder.Entity("CRMTest.Model.StaffTaskStatus", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("StatusTitle")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("StaffTaskStatusTb");
-                });
-
-            modelBuilder.Entity("CRMTest.Model.Staffs", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
+                    b.Property<string>("SourceName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -565,16 +717,54 @@ namespace CRMTest.Migrations
                     b.Property<int>("client_id")
                         .HasColumnType("int");
 
-                    b.Property<int>("role_id")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("client_id");
 
-                    b.HasIndex("role_id");
+                    b.ToTable("LeadSourceTb");
+                });
 
-                    b.ToTable("StaffsTb");
+            modelBuilder.Entity("CRMTest.Model.Subscription", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<float>("Amount")
+                        .HasColumnType("real");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Validity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Subscription");
+                });
+
+            modelBuilder.Entity("CRMTest.Model.SubscriptionStatus", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("StatusTitle")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SubscriptionStatus");
                 });
 
             modelBuilder.Entity("CRMTest.Model.Tasks", b =>
@@ -641,6 +831,132 @@ namespace CRMTest.Migrations
                     b.ToTable("TasksHistoryTb");
                 });
 
+            modelBuilder.Entity("CRMTest.Model.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("client_id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("role_id")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("client_id");
+
+                    b.HasIndex("role_id");
+
+                    b.ToTable("StaffsTb");
+                });
+
+            modelBuilder.Entity("CRMTest.Model.UserRole", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("RoleName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("client_id")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("client_id");
+
+                    b.ToTable("StaffRoleTb");
+                });
+
+            modelBuilder.Entity("CRMTest.Model.UserTask", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("status_id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("task_id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("user_id")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("status_id");
+
+                    b.HasIndex("task_id");
+
+                    b.HasIndex("user_id");
+
+                    b.ToTable("StaffTaskTb");
+                });
+
+            modelBuilder.Entity("CRMTest.Model.UserTaskStatus", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("StatusTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("StaffTaskStatusTb");
+                });
+
             modelBuilder.Entity("CRMTest.Model.Campaign", b =>
                 {
                     b.HasOne("CRMTest.Model.Client", "clients")
@@ -649,20 +965,63 @@ namespace CRMTest.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CRMTest.Model.Staffs", "staffs")
+                    b.HasOne("CRMTest.Model.User", "user")
                         .WithMany("campaigns")
                         .HasForeignKey("created_by")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
+                    b.HasOne("CRMTest.Model.Source", "leadSource")
+                        .WithMany("campaigns")
+                        .HasForeignKey("source_id")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.Navigation("clients");
 
-                    b.Navigation("staffs");
+                    b.Navigation("leadSource");
+
+                    b.Navigation("user");
+                });
+
+            modelBuilder.Entity("CRMTest.Model.Client", b =>
+                {
+                    b.HasOne("CRMTest.Model.ClientAccountInfo", "AccountInfo")
+                        .WithOne("client")
+                        .HasForeignKey("CRMTest.Model.Client", "Accountinfo_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CRMTest.Model.ClientAddressInfo", "AddressInfo")
+                        .WithOne("client")
+                        .HasForeignKey("CRMTest.Model.Client", "addressInfo_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CRMTest.Model.ClientBillingInfo", "billingInfo")
+                        .WithOne("client")
+                        .HasForeignKey("CRMTest.Model.Client", "billingInfo_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CRMTest.Model.ClientSubscription", "clientSubscription")
+                        .WithOne("client")
+                        .HasForeignKey("CRMTest.Model.Client", "subscription_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AccountInfo");
+
+                    b.Navigation("AddressInfo");
+
+                    b.Navigation("billingInfo");
+
+                    b.Navigation("clientSubscription");
                 });
 
             modelBuilder.Entity("CRMTest.Model.ClientCustomers", b =>
                 {
-                    b.HasOne("CRMTest.Model.Staffs", "staffs")
+                    b.HasOne("CRMTest.Model.User", "user")
                         .WithMany("clientCustomers")
                         .HasForeignKey("agent_id")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -680,7 +1039,7 @@ namespace CRMTest.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CRMTest.Model.LeadSource", "sources")
+                    b.HasOne("CRMTest.Model.Source", "sources")
                         .WithMany("clientCustomers")
                         .HasForeignKey("source_id")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -692,7 +1051,7 @@ namespace CRMTest.Migrations
 
                     b.Navigation("sources");
 
-                    b.Navigation("staffs");
+                    b.Navigation("user");
                 });
 
             modelBuilder.Entity("CRMTest.Model.ClientFeedback", b =>
@@ -706,9 +1065,39 @@ namespace CRMTest.Migrations
                     b.Navigation("client");
                 });
 
+            modelBuilder.Entity("CRMTest.Model.ClientSubscription", b =>
+                {
+                    b.HasOne("CRMTest.Model.Subscription", "subscription")
+                        .WithMany("clientSubscriptions")
+                        .HasForeignKey("current_subscription")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CRMTest.Model.SubscriptionStatus", "status")
+                        .WithMany("clientSubscriptions")
+                        .HasForeignKey("status_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("status");
+
+                    b.Navigation("subscription");
+                });
+
+            modelBuilder.Entity("CRMTest.Model.CustomFields", b =>
+                {
+                    b.HasOne("CRMTest.Model.Client", "client")
+                        .WithMany("customFields")
+                        .HasForeignKey("clientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("client");
+                });
+
             modelBuilder.Entity("CRMTest.Model.LeadCallHistory", b =>
                 {
-                    b.HasOne("CRMTest.Model.Staffs", "staffs")
+                    b.HasOne("CRMTest.Model.User", "user")
                         .WithMany("leadCallHistories")
                         .HasForeignKey("agent_id")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -722,7 +1111,45 @@ namespace CRMTest.Migrations
 
                     b.Navigation("leads");
 
-                    b.Navigation("staffs");
+                    b.Navigation("user");
+                });
+
+            modelBuilder.Entity("CRMTest.Model.LeadCampaign", b =>
+                {
+                    b.HasOne("CRMTest.Model.Campaign", "campaign")
+                        .WithMany("leadCampaigns")
+                        .HasForeignKey("campaign_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CRMTest.Model.Leads", "leads")
+                        .WithOne("lead_campaign")
+                        .HasForeignKey("CRMTest.Model.LeadCampaign", "lead_id")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("campaign");
+
+                    b.Navigation("leads");
+                });
+
+            modelBuilder.Entity("CRMTest.Model.LeadFollowUp", b =>
+                {
+                    b.HasOne("CRMTest.Model.Leads", "lead")
+                        .WithOne("leadFollowUp")
+                        .HasForeignKey("CRMTest.Model.LeadFollowUp", "lead_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CRMTest.Model.User", "user")
+                        .WithMany("leadFollowUps")
+                        .HasForeignKey("updated_by")
+                        .OnDelete(DeleteBehavior.ClientNoAction)
+                        .IsRequired();
+
+                    b.Navigation("lead");
+
+                    b.Navigation("user");
                 });
 
             modelBuilder.Entity("CRMTest.Model.LeadQualification", b =>
@@ -736,13 +1163,30 @@ namespace CRMTest.Migrations
                     b.Navigation("client");
                 });
 
-            modelBuilder.Entity("CRMTest.Model.Leads", b =>
+            modelBuilder.Entity("CRMTest.Model.LeadSource", b =>
                 {
-                    b.HasOne("CRMTest.Model.Campaign", "campaign")
-                        .WithMany("leads")
-                        .HasForeignKey("campaign_id")
+                    b.HasOne("CRMTest.Model.Leads", "leads")
+                        .WithOne("leadSource")
+                        .HasForeignKey("CRMTest.Model.LeadSource", "lead_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("CRMTest.Model.Source", "source")
+                        .WithMany("leadSources")
+                        .HasForeignKey("source_id")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("leads");
+
+                    b.Navigation("source");
+                });
+
+            modelBuilder.Entity("CRMTest.Model.Leads", b =>
+                {
+                    b.HasOne("CRMTest.Model.Campaign", null)
+                        .WithMany("leads")
+                        .HasForeignKey("CampaignId");
 
                     b.HasOne("CRMTest.Model.Client", "client")
                         .WithMany("leads")
@@ -756,7 +1200,7 @@ namespace CRMTest.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("CRMTest.Model.LeadSource", "sources")
+                    b.HasOne("CRMTest.Model.Source", "sources")
                         .WithMany("leads")
                         .HasForeignKey("source_id")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -768,13 +1212,11 @@ namespace CRMTest.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CRMTest.Model.Staffs", "staffs")
+                    b.HasOne("CRMTest.Model.User", "user")
                         .WithMany("leads")
                         .HasForeignKey("updated_by")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-
-                    b.Navigation("campaign");
 
                     b.Navigation("client");
 
@@ -782,9 +1224,9 @@ namespace CRMTest.Migrations
 
                     b.Navigation("sources");
 
-                    b.Navigation("staffs");
-
                     b.Navigation("status");
+
+                    b.Navigation("user");
                 });
 
             modelBuilder.Entity("CRMTest.Model.LeadsHistory", b =>
@@ -795,7 +1237,7 @@ namespace CRMTest.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CRMTest.Model.Staffs", "staffs")
+                    b.HasOne("CRMTest.Model.User", "user")
                         .WithMany("leadsHistories")
                         .HasForeignKey("updated_by")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -803,18 +1245,83 @@ namespace CRMTest.Migrations
 
                     b.Navigation("lead");
 
-                    b.Navigation("staffs");
+                    b.Navigation("user");
                 });
 
-            modelBuilder.Entity("CRMTest.Model.StaffTask", b =>
+            modelBuilder.Entity("CRMTest.Model.Source", b =>
                 {
-                    b.HasOne("CRMTest.Model.Staffs", "staffs")
-                        .WithMany("stafftasks")
-                        .HasForeignKey("staff_id")
+                    b.HasOne("CRMTest.Model.Client", "client")
+                        .WithMany("sources")
+                        .HasForeignKey("client_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CRMTest.Model.StaffTaskStatus", "status")
+                    b.Navigation("client");
+                });
+
+            modelBuilder.Entity("CRMTest.Model.Tasks", b =>
+                {
+                    b.HasOne("CRMTest.Model.User", "staff")
+                        .WithMany("tasks")
+                        .HasForeignKey("created_by")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("staff");
+                });
+
+            modelBuilder.Entity("CRMTest.Model.TasksHistory", b =>
+                {
+                    b.HasOne("CRMTest.Model.User", "staff")
+                        .WithMany()
+                        .HasForeignKey("staffId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CRMTest.Model.UserTask", "staffTask")
+                        .WithMany("tasksHistories")
+                        .HasForeignKey("stafftask_id")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("staff");
+
+                    b.Navigation("staffTask");
+                });
+
+            modelBuilder.Entity("CRMTest.Model.User", b =>
+                {
+                    b.HasOne("CRMTest.Model.Client", "clients")
+                        .WithMany("users")
+                        .HasForeignKey("client_id")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("CRMTest.Model.UserRole", "roles")
+                        .WithMany("staffs")
+                        .HasForeignKey("role_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("clients");
+
+                    b.Navigation("roles");
+                });
+
+            modelBuilder.Entity("CRMTest.Model.UserRole", b =>
+                {
+                    b.HasOne("CRMTest.Model.Client", "client")
+                        .WithMany("userRoles")
+                        .HasForeignKey("client_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("client");
+                });
+
+            modelBuilder.Entity("CRMTest.Model.UserTask", b =>
+                {
+                    b.HasOne("CRMTest.Model.UserTaskStatus", "status")
                         .WithMany("tasks")
                         .HasForeignKey("status_id")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -826,65 +1333,24 @@ namespace CRMTest.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("staffs");
+                    b.HasOne("CRMTest.Model.User", "user")
+                        .WithMany("stafftasks")
+                        .HasForeignKey("user_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("status");
 
                     b.Navigation("tasks");
-                });
 
-            modelBuilder.Entity("CRMTest.Model.Staffs", b =>
-                {
-                    b.HasOne("CRMTest.Model.Client", "clients")
-                        .WithMany("staffs")
-                        .HasForeignKey("client_id")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("CRMTest.Model.StaffRole", "roles")
-                        .WithMany("staffs")
-                        .HasForeignKey("role_id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("clients");
-
-                    b.Navigation("roles");
-                });
-
-            modelBuilder.Entity("CRMTest.Model.Tasks", b =>
-                {
-                    b.HasOne("CRMTest.Model.Staffs", "staff")
-                        .WithMany("tasks")
-                        .HasForeignKey("created_by")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("staff");
-                });
-
-            modelBuilder.Entity("CRMTest.Model.TasksHistory", b =>
-                {
-                    b.HasOne("CRMTest.Model.Staffs", "staff")
-                        .WithMany()
-                        .HasForeignKey("staffId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CRMTest.Model.StaffTask", "staffTask")
-                        .WithMany("tasksHistories")
-                        .HasForeignKey("stafftask_id")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("staff");
-
-                    b.Navigation("staffTask");
+                    b.Navigation("user");
                 });
 
             modelBuilder.Entity("CRMTest.Model.Campaign", b =>
                 {
                     b.Navigation("clientCustomers");
+
+                    b.Navigation("leadCampaigns");
 
                     b.Navigation("leads");
                 });
@@ -897,22 +1363,45 @@ namespace CRMTest.Migrations
 
                     b.Navigation("clientFeedbacks");
 
+                    b.Navigation("customFields");
+
                     b.Navigation("leadQualifications");
 
                     b.Navigation("leads");
 
-                    b.Navigation("staffs");
+                    b.Navigation("sources");
+
+                    b.Navigation("userRoles");
+
+                    b.Navigation("users");
+                });
+
+            modelBuilder.Entity("CRMTest.Model.ClientAccountInfo", b =>
+                {
+                    b.Navigation("client")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CRMTest.Model.ClientAddressInfo", b =>
+                {
+                    b.Navigation("client")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CRMTest.Model.ClientBillingInfo", b =>
+                {
+                    b.Navigation("client")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CRMTest.Model.ClientSubscription", b =>
+                {
+                    b.Navigation("client")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("CRMTest.Model.LeadQualification", b =>
                 {
-                    b.Navigation("leads");
-                });
-
-            modelBuilder.Entity("CRMTest.Model.LeadSource", b =>
-                {
-                    b.Navigation("clientCustomers");
-
                     b.Navigation("leads");
                 });
 
@@ -925,31 +1414,53 @@ namespace CRMTest.Migrations
                 {
                     b.Navigation("leadCallHistories");
 
+                    b.Navigation("leadFollowUp")
+                        .IsRequired();
+
+                    b.Navigation("leadSource")
+                        .IsRequired();
+
+                    b.Navigation("lead_campaign")
+                        .IsRequired();
+
                     b.Navigation("leadsHistories");
                 });
 
-            modelBuilder.Entity("CRMTest.Model.StaffRole", b =>
+            modelBuilder.Entity("CRMTest.Model.Source", b =>
                 {
-                    b.Navigation("staffs");
+                    b.Navigation("campaigns");
+
+                    b.Navigation("clientCustomers");
+
+                    b.Navigation("leadSources");
+
+                    b.Navigation("leads");
                 });
 
-            modelBuilder.Entity("CRMTest.Model.StaffTask", b =>
+            modelBuilder.Entity("CRMTest.Model.Subscription", b =>
                 {
-                    b.Navigation("tasksHistories");
+                    b.Navigation("clientSubscriptions");
                 });
 
-            modelBuilder.Entity("CRMTest.Model.StaffTaskStatus", b =>
+            modelBuilder.Entity("CRMTest.Model.SubscriptionStatus", b =>
                 {
-                    b.Navigation("tasks");
+                    b.Navigation("clientSubscriptions");
                 });
 
-            modelBuilder.Entity("CRMTest.Model.Staffs", b =>
+            modelBuilder.Entity("CRMTest.Model.Tasks", b =>
+                {
+                    b.Navigation("stafftask");
+                });
+
+            modelBuilder.Entity("CRMTest.Model.User", b =>
                 {
                     b.Navigation("campaigns");
 
                     b.Navigation("clientCustomers");
 
                     b.Navigation("leadCallHistories");
+
+                    b.Navigation("leadFollowUps");
 
                     b.Navigation("leads");
 
@@ -960,9 +1471,19 @@ namespace CRMTest.Migrations
                     b.Navigation("tasks");
                 });
 
-            modelBuilder.Entity("CRMTest.Model.Tasks", b =>
+            modelBuilder.Entity("CRMTest.Model.UserRole", b =>
                 {
-                    b.Navigation("stafftask");
+                    b.Navigation("staffs");
+                });
+
+            modelBuilder.Entity("CRMTest.Model.UserTask", b =>
+                {
+                    b.Navigation("tasksHistories");
+                });
+
+            modelBuilder.Entity("CRMTest.Model.UserTaskStatus", b =>
+                {
+                    b.Navigation("tasks");
                 });
 #pragma warning restore 612, 618
         }

@@ -7,7 +7,6 @@
         public int updated_by { get; set; }
         public int lead_id { get; set; }
         public Leads lead { get; set; }
-        public string Description { get; set; }
         public User user { get; set; }
     }
 }
