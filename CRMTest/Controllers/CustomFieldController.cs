@@ -4,16 +4,16 @@ namespace CRMTest.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
+    public class CustomFieldController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
-        private readonly ILogger<WeatherForecastController> _logger;
+        private readonly ILogger<CustomFieldController> _logger;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public CustomFieldController(ILogger<CustomFieldController> logger)
         {
             _logger = logger;
         }

@@ -23,5 +23,7 @@ namespace CRMTest.Model
         public List<LeadCallHistory> leadCallHistories { get; set; }
         public List<LeadFollowUp> leadFollowUps { get; set; }
         public UserInfo userInfo { get; set; }
+        public List<UserTeam> userTeams { get; set; }
+ 
     }
 }

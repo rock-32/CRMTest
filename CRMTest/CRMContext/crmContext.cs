@@ -207,10 +207,7 @@ namespace CRMTest.CRMContext
                 .HasOne(cs => cs.client)
                 .WithMany(s => s.sources)
                 .HasForeignKey(cs => cs.client_id);
-            modelBuilder.Entity<UserRole>()
-                .HasOne(cs => cs.client)
-                .WithMany(s => s.userRoles)
-                .HasForeignKey(cs => cs.client_id);
+            
             modelBuilder.Entity<LeadSource>()
                 .HasOne(cs => cs.leads)
                 .WithOne(s => s.leadSource)
@@ -235,6 +232,16 @@ namespace CRMTest.CRMContext
                 .WithMany(s => s.leadDocuments)
                 .HasForeignKey(cs => cs.lead_id)
                 .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<UserTeam>()
+                .HasOne(cs => cs.user)
+                .WithMany(s => s.userTeams)
+                .HasForeignKey(cs => cs.leader_id)
+                .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<UserTeam>()
+               .HasOne(cs => cs.user)
+               .WithMany(s => s.userTeams)
+               .HasForeignKey(cs => cs.user_id)
+               .OnDelete(DeleteBehavior.NoAction);
 
 
             base.OnModelCreating(modelBuilder);

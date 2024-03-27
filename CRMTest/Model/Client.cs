@@ -24,6 +24,6 @@
         public ClientSubscription clientSubscription { get; set; }
         public List<Source> sources { get; set; }
         public List<CustomFields> customFields { get; set; }
-        public List<UserRole> userRoles { get; set; }
+      /*  public List<UserRole> userRoles { get; set; }*/
     }
 }

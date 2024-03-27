@@ -9,8 +9,10 @@
         public bool CanEdit {  get; set; }
         public bool CanDelete {  get; set; }
         public bool CanAdd {  get; set; }
+        public int client_id {  get; set; }
 
         public UserRole user_role { get; set; }
         public Permissions permissions { get; set; }
+        public Client client { get; set; }
     }
 }

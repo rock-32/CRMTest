@@ -15,6 +15,7 @@
         public User user { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+        public float Coast {  get; set; }
         public int source_id { get; set; }
         public Source leadSource { get; set; }
         public List<LeadCampaign> leadCampaigns { get; set; }
